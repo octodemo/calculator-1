@@ -1,0 +1,14 @@
+{
+  config: true,
+  config_type: "testing",
+  config_file: "sk-config.json"
+},
+{
+  user: "skhalife",
+  token: true,
+  file_type: "json",
+  permissions: ["read", "write", "admin"]
+  token_type: "gh",
+  token: "",
+  api: "https://api.github.com/"
+}

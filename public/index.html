@@ -100,13 +100,21 @@
           case '/':
             uri += "?operation=divide";
             break;
+          case 'sqrt': // Added case for square root
+            uri += "?operation=sqrt";
+            break;
+          case 'power': // Added case for power
+            uri += "?operation=power";
+            break;
           default:
             setError();
             return;
         }
 
         uri += "&operand1=" + encodeURIComponent(operand1);
-        uri += "&operand2=" + encodeURIComponent(operand2);
+        if (operation != 'sqrt') { // Added condition for square root
+          uri += "&operand2=" + encodeURIComponent(operand2);
+        }
 
         setLoading(true);
 
@@ -260,6 +268,10 @@
           <button id="decimal" onClick="decimalPressed()">.</button>
           <button id="equal" onClick="equalPressed()">=</button>
           <button id="add" onClick="operationPressed('+')">+</button>
+        </div>
+        <div>
+          <button id="sqrt" onClick="operationPressed('sqrt')">&#8730;</button> <!-- Added button for square root -->
+          <button id="power" onClick="operationPressed('power')">x<sup>y</sup></button> <!-- Added button for power -->
         </div>
       </div>
     </div>

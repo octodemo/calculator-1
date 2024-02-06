@@ -48,6 +48,23 @@ describe('Arithmetic', function() {
               done();
           });
     });
+    // Added validation for square root operation
+    it('rejects negative operand1 for square root', function(done) {
+      request.get('/arithmetic?operation=sqrt&operand1=-4')
+          .expect(400)
+          .end(function(err, res) {
+              expect(res.body).to.eql({ error: "Invalid operand1: -4" });
+              done();
+          });
+    });
+    it('rejects operand2 for square root', function(done) {
+      request.get('/arithmetic?operation=sqrt&operand1=4&operand2=2')
+          .expect(400)
+          .end(function(err, res) {
+              expect(res.body).to.eql({ error: "Invalid operand2: 2" });
+              done();
+          });
+    });
   });
 
   describe('Addition', function() {
@@ -249,6 +266,102 @@ describe('Arithmetic', function() {
           .expect(200)
           .end(function(err, res) {
               expect(res.body).to.eql({ result: null });
+              done();
+          });
+    });
+  });
+
+  // Added tests for square root operation
+  describe('Square root', function() {
+    it('returns the square root of a positive integer', function(done) {
+      request.get('/arithmetic?operation=sqrt&operand1=25')
+          .expect(200)
+          .end(function(err, res) {
+              expect(res.body).to.eql({ result: 5 });
+              done();
+          });
+    });
+    it('returns the square root of zero', function(done) {
+      request.get('/arithmetic?operation=sqrt&operand1=0')
+          .expect(200)
+          .end(function(err, res) {
+              expect(res.body).to.eql({ result: 0 });
+              done();
+          });
+    });
+    it('returns the square root of a floating point number', function(done) {
+      request.get('/arithmetic?operation=sqrt&operand1=0.25')
+          .expect(200)
+          .end(function(err, res) {
+              expect(res.body).to.eql({ result: 0.5 });
+              done();
+          });
+    });
+    it('returns the square root of a number in exponential notation', function(done) {
+      request.get('/arithmetic?operation=sqrt&operand1=1e4')
+          .expect(200)
+          .end(function(err, res) {
+              expect(res.body).to.eql({ result: 100 });
+              done();
+          });
+    });
+  });
+
+  // Added tests for power operation
+  describe('Power', function() {
+    it('returns the power of two positive integers', function(done) {
+      request.get('/arithmetic?operation=power&operand1=2&operand2=3')
+          .expect(200)
+          .end(function(err, res) {
+              expect(res.body).to.eql({ result: 8 });
+              done();
+          });
+    });
+    it('returns the power of a positive integer and zero', function(done) {
+      request.get('/arithmetic?operation=power&operand1=2&operand2=0')
+          .expect(200)
+          .end(function(err, res) {
+              expect(res.body).to.eql({ result: 1 });
+              done();
+          });
+    });
+    it('returns the power of a positive integer and a negative integer', function(done) {
+      request.get('/arithmetic?operation=power&operand1=2&operand2=-3')
+          .expect(200)
+          .end(function(err, res) {
+              expect(res.body).to.eql({ result: 0.125 });
+              done();
+          });
+    });
+    it('returns the power of a negative integer and a positive integer', function(done) {
+      request.get('/arithmetic?operation=power&operand1=-2&operand2=3')
+          .expect(200)
+          .end(function(err, res) {
+              expect(res.body).to.eql({ result: -8 });
+              done();
+          });
+    });
+    it('returns the power of a negative integer and a negative integer', function(done) {
+      request.get('/arithmetic?operation=power&operand1=-2&operand2=-3')
+          .expect(200)
+          .end(function(err, res) {
+              expect(res.body).to.eql({ result: -0.125 });
+              done();
+          });
+    });
+    it('returns the power of a floating point number and an integer', function(done) {
+      request.get('/arithmetic?operation=power&operand1=0.5&operand2=2')
+          .expect(200)
+          .end(function(err, res) {
+              expect(res.body).to.eql({ result: 0.25 });
+              done();
+          });
+    });
+    it('returns the power of a number in exponential notation and an integer', function(done) {
+      request.get('/arithmetic?operation=power&operand1=1e2&operand2=2')
+          .expect(200)
+          .end(function(err, res) {
+              expect(res.body).to.eql({ result: 10000 });
               done();
           });
     });
